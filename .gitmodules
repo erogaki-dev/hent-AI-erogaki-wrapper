@@ -1,0 +1,3 @@
+[submodule "hent-AI"]
+	path = hent-AI
+	url = https://github.com/erogaki-dev/hent-AI.git
