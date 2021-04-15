@@ -1,23 +1,10 @@
-FROM alpine AS model
-
-## Setup models for hent-AI
-WORKDIR /model
-
-# Download models.
-RUN wget https://github.com/erogaki-dev/erogaki-models/releases/download/v0.0.1/hent-AI.model.268.tar.gz
-RUN wget https://github.com/erogaki-dev/erogaki-models/releases/download/v0.0.1/25-11-2019.Fatal.Pixels.tar.gz
-
-# Unpack models.
-RUN tar -xf hent-AI.model.268.tar.gz
-RUN tar -xf 25-11-2019.Fatal.Pixels.tar.gz
-
 FROM continuumio/miniconda3 AS deploy
 
 ## Copy models.
 WORKDIR /model
 
-COPY --from=model ["/model/hent-AI model 268", "./hent-AI model 268"]
-COPY --from=model ["/model/25-11-2019 Fatal Pixels", "./25-11-2019 Fatal Pixels"]
+COPY ["./models/hent-AI model 268", "./hent-AI-model 268"]
+COPY ["./models/25-11-2019 Fatal Pixels", "./25-11-2019 Fatal Pixels"]
 
 ## Setup first part of hent-AI-erogaki-wrapper.
 WORKDIR /app
