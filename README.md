@@ -25,3 +25,11 @@ Then just build the docker image, when you're in the root directory of this repo
 ```
 docker image build -t hent-ai-erogaki-wrapper .
 ```
+
+## Running a Docker Container
+
+Once you build the Docker image, you can just run a container like this:
+
+```
+docker run -it --network=host hent-ai-erogaki-wrapper
+```
