@@ -34,8 +34,14 @@ COPY ./hent-AI/requirements-cpu.txt ./
 # Install the dependencies.
 RUN conda run --no-capture-output --name hent-AI-erogaki-wrapper pip install -r requirements-cpu.txt
 
+# Install libgl.
+RUN apt-get install -y libgl1-mesa-glx
+
 # Copy the source code.
 COPY ./hent-AI ./
+
+# Do: "6. Install Mask Rcnn"
+RUN conda run --no-capture-output --name hent-AI-erogaki-wrapper python setup.py install
 
 ## Setup second part hent-AI-erogaki-wrapper.
 WORKDIR /app
