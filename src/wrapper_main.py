@@ -14,7 +14,7 @@ import io
 def main():
     r = redis.Redis(host="localhost", port=6379, db=0)
 
-    detector_and_decensor_instance = Detector("/model/hent-AI model 268/weights.h5")
+    detector_and_decensor_instance = Detector("/models/hent-AI model 268/weights.h5")
     detector_and_decensor_instance.load_weights()
 
     # Test the connection to Redis.

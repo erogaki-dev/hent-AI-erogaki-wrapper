@@ -1,9 +1,9 @@
 FROM continuumio/miniconda3 AS deploy
 
 ## Copy models.
-WORKDIR /model
+WORKDIR /models
 
-COPY ["./models/hent-AI model 268", "./hent-AI-model 268"]
+COPY ["./models/hent-AI model 268", "./hent-AI model 268"]
 COPY ["./models/25-11-2019 Fatal Pixels", "./25-11-2019 Fatal Pixels"]
 
 ## Setup first part of hent-AI-erogaki-wrapper.
