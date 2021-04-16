@@ -10,6 +10,7 @@ from wrapper_detector import Detector
 import redis
 import io
 from erogaki_wrapper_shared_python.ImageProcessor import ImageProcessor
+from NoCensoredRegionsFoundError import NoCensoredRegionsFoundError
 
 def main():
     r = redis.Redis(host="localhost", port=6379, db=0)
@@ -28,10 +29,13 @@ def main():
         censored_img_data = r.get("censored-images:%s" % uuid.decode())
 
         if key.decode() == "censored-images:hent-ai:bar":
-            prepared_img = detector_and_decensor_instance.detect_and_cover(ImageProcessor.bytes_to_image(censored_img_data), 3)
+            try:
+                prepared_img = detector_and_decensor_instance.detect_and_cover(ImageProcessor.bytes_to_image(censored_img_data), 3)
 
-            r.set("censored-images:%s" % uuid.decode(), ImageProcessor.image_to_bytes(prepared_img))
-            r.rpush("censored-images:deepcreampy:bar", "%s" % uuid.decode())
+                r.set("censored-images:%s" % uuid.decode(), ImageProcessor.image_to_bytes(prepared_img))
+                r.rpush("censored-images:deepcreampy:bar", "%s" % uuid.decode())
+            except NoCensoredRegionsFoundError as e:
+                print(e.json)
         else:
             print("can't do mosaic yet")
 

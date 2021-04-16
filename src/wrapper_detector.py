@@ -40,6 +40,8 @@ from green_mask_project_mosaic_resolution import get_mosaic_res
 
 from PIL import Image
 
+from NoCensoredRegionsFoundError import NoCensoredRegionsFoundError
+
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
 # Path to trained weights
@@ -295,6 +297,9 @@ class Detector():
         new_masks = np.delete(r['masks'], remove_indices, axis=2)
 
         cov, mask = self.apply_cover(image, new_masks, dilation)
+
+        if mask.size == 0:
+            raise NoCensoredRegionsFoundError("No censored regions detected.")
 
         return Image.fromarray(cov.astype("uint8"))
 
