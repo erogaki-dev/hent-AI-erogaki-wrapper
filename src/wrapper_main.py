@@ -35,7 +35,8 @@ def main():
                 r.set("censored-images:%s" % uuid.decode(), ImageProcessor.image_to_bytes(prepared_img))
                 r.rpush("censored-images:deepcreampy:bar", "%s" % uuid.decode())
             except NoCensoredRegionsFoundError as e:
-                print(e.json)
+                print(e.description)
+                r.set("errors:%s" % uuid.decode(), e.json)
         else:
             print("can't do mosaic yet")
 
