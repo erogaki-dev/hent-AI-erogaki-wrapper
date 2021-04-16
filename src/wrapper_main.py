@@ -7,9 +7,9 @@ path.append(getcwd() + "/hent-AI")
 from wrapper_detector import Detector
 
 # External libraries.
-from PIL import Image
 import redis
 import io
+from erogaki_wrapper_shared_python.ImageProcessor import ImageProcessor
 
 def main():
     r = redis.Redis(host="localhost", port=6379, db=0)
@@ -27,18 +27,10 @@ def main():
 
         censored_img_data = r.get("censored-images:%s" % uuid.decode())
 
-        censored_img_file = io.BytesIO(censored_img_data)
-        censored_img_file.seek(0)
-
-        censored_img = Image.open(censored_img_file)
-
         if key.decode() == "censored-images:hent-ai:bar":
-            prepared_img = detector_and_decensor_instance.detect_and_cover(censored_img, 3)
+            prepared_img = detector_and_decensor_instance.detect_and_cover(ImageProcessor.bytes_to_image(censored_img_data), 3)
 
-            prepared_img_file = io.BytesIO()
-            prepared_img.save(prepared_img_file, format="PNG")
-
-            r.set("censored-images:%s" % uuid.decode(), prepared_img_file.getvalue())
+            r.set("censored-images:%s" % uuid.decode(), ImageProcessor.image_to_bytes(prepared_img))
             r.rpush("censored-images:deepcreampy:bar", "%s" % uuid.decode())
         else:
             print("can't do mosaic yet")
