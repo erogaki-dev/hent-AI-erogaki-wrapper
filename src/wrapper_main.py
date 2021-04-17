@@ -5,15 +5,16 @@ path.append(getcwd() + "/hent-AI")
 
 # Local libraries.
 from wrapper_detector import Detector
+from NoCensoredRegionsFoundError import NoCensoredRegionsFoundError
 
 # External libraries.
 import redis
 import io
+from erogaki_wrapper_shared_python.ErogakiWrapperConfig import config
 from erogaki_wrapper_shared_python.ImageProcessor import ImageProcessor
-from NoCensoredRegionsFoundError import NoCensoredRegionsFoundError
 
 def main():
-    r = redis.Redis(host="localhost", port=6379, db=0)
+    r = redis.Redis(host=config.redis.hostname, port=config.redis.port, db=config.redis.db)
 
     detector_and_decensor_instance = Detector("/models/hent-AI model 268/weights.h5")
     detector_and_decensor_instance.load_weights()
