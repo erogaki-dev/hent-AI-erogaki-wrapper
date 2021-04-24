@@ -1,5 +1,7 @@
 # hent-AI-erogaki-wrapper
 
+Has been replaced by [erogaki-mask](https://github.com/erogaki-dev/erogaki-mask).
+
 ## Building the Docker Image
 
 ### 1. Models
